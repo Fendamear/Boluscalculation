@@ -26,6 +26,7 @@ let DatabaseDummy: Item[] = [
 
 let items: Item[] = [];
 
+
 DatabaseDummy.forEach(item => {
     if (urlParams.get('year') == null || urlParams.get('year').length < 1 || item.date.getFullYear() == <number><unknown>urlParams.get('year')){
         if (urlParams.get('month') == null || urlParams.get('month').length < 1 || item.date.getMonth() == <number><unknown>urlParams.get('month') - 1){
@@ -63,4 +64,91 @@ function ChangeDate(year = '', month = ''){
         window.location.search = '';
     }
 }
+
+
+//
+//CARBS PER DAY CHART
+//
+var xCarbs = [];
+var yCarbs = [];
+
+items.forEach(element => {
+    let i: number = xCarbs.indexOf(element.date.toLocaleDateString());
+
+    if (i >= 0){
+        yCarbs[i] += element.intake;
+    }
+    else{
+        xCarbs.push(element.date.toLocaleDateString());
+        yCarbs.push(element.intake);
+    }
+});
+
+var Chart;
+new Chart("CarbsPerDay", {
+    type: "line",
+    data: {
+      labels: xCarbs,
+      datasets: [{
+        fill: true,
+        lineTension: 0,
+        backgroundColor: "rgba(0,0,255,0.1)",
+        borderColor: "rgba(0,0,255,0.1)",
+        data: yCarbs,
+        label: "Amount of carbs consumed per day",
+        pointBorderColor: "rgba(0,0,255,1)",
+        pointBackgroundColor: "rgba(0,0,255,1)",
+        lineBorderColor: "rgba(53, 88, 230,0.5)"
+      }]
+    },
+    options: {
+      responsive: false,
+      legend: {display: false},
+      scales: {
+        y: {beginAtZero: true}
+      }
+    }
+  });
+
+
+
+  //
+  //UNITS PER DAY CHART
+  //
+  var xUnits = [];
+  var yUnits = [];
+
+  items.forEach(element => {
+    let i: number = xUnits.indexOf(element.date.toLocaleDateString());
+
+    if (i >= 0){
+        yUnits[i] += element.result;
+    }
+    else{
+        xUnits.push(element.date.toLocaleDateString());
+        yUnits.push(element.result);
+    }
+});
+
+  new Chart("UnitsPerDay", {
+    type: "line",
+    data: {
+      labels: xUnits,
+      datasets: [{
+        fill: false,
+        lineTension: 0,
+        backgroundColor: "rgba(0,0,255,1.0)",
+        borderColor: "rgba(0,0,255,0.1)",
+        data: yUnits,
+        label: "Amount of units injected per day"
+      }]
+    },
+    options: {
+      responsive: false,
+      legend: {display: false},
+      scales: {
+        y: {beginAtZero: true}
+      }
+    }
+  });
 
