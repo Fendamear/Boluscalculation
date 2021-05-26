@@ -2,7 +2,7 @@ var button = document.getElementById("Calculate");
 var weight = document.getElementById("weightInput");
 var carbs = document.getElementById("carbsInput");
 function PostbolusCalc(weight, carbs) {
-    var date = new Date().toLocaleString();
+    var date = new Date();
     var json = JSON.stringify({ "weight": weight, "carbs": carbs, "calcTime": date });
     fetch('http://localhost:3000/Postcalc', {
         method: 'POST',
@@ -13,11 +13,10 @@ function PostbolusCalc(weight, carbs) {
 }
 function GetCalculation(json) {
     document.getElementById("result").style.visibility = "visibility: hidden";
-    var tdi = json.total_intake;
-    var bd = json.basaldose;
-    var meal_intake = json.Unit;
-    var date = json.time;
-    console.log(tdi, bd, meal_intake, date);
+    var tdi = json.Tdi;
+    var bd = json.Bd;
+    var meal_intake = json.Units;
+    console.log(tdi, bd, meal_intake);
     if (tdi != 0 || bd != 0 || meal_intake != 0) {
         document.getElementById("result").style.visibility = "visible";
         document.getElementById("totalOutput").innerText = "Total daily Unit intake:  " + Math.round(tdi);

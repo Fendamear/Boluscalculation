@@ -6,7 +6,7 @@ export class Calc {
     @PrimaryGeneratedColumn()
     Id: number;
 
-    @CreateDateColumn()
+    @Column()
     Date: Date;
 
     @Column()

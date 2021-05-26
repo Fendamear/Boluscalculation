@@ -3,7 +3,7 @@ let weight = (<HTMLInputElement>document.getElementById("weightInput"));
 let carbs = (<HTMLInputElement>document.getElementById("carbsInput"))
 
 function PostbolusCalc(weight:number, carbs: number) {
-    const date = new Date().toLocaleString();
+    const date = new Date();
     const json = JSON.stringify({"weight":weight, "carbs":carbs, "calcTime":date})
 
     fetch('http://localhost:3000/Postcalc', {

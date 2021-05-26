@@ -4,7 +4,7 @@
     "port": 3306,
     "username": "root",
     "password": "",
-    "database": "testdb",
+    "database": "philipsdb",
     "synchronize": true,
     "logging": false,
     "entities": [

@@ -2,7 +2,7 @@ var button = document.getElementById("Calculate");
 var weight = document.getElementById("weightInput");
 var carbs = document.getElementById("carbsInput");
 function PostbolusCalc(weight, carbs) {
-    var date = new Date().toLocaleString();
+    var date = new Date();
     var json = JSON.stringify({ "weight": weight, "carbs": carbs, "calcTime": date });
     fetch('http://localhost:3000/Postcalc', {
         method: 'POST',
