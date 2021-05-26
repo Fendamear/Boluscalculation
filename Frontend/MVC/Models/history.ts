@@ -51,10 +51,9 @@ function GridFill(json)
       i++;
     }   
    ) 
+   console.log("Testfunctie Graphfiller")
    GraphFiller(json);
 }
-
-FillGrid();
 
 function AddGridItem(date: string, Weight:number, Units: number, Carbs: number, Tdi: number, Bd: number) {
   let newRow: HTMLElement = <any>template.content.cloneNode(true);
@@ -70,59 +69,14 @@ function AddGridItem(date: string, Weight:number, Units: number, Carbs: number, 
   document.getElementById("gridContainer").appendChild(newRow);
 }
 
-function FillGrid(year: any = "", month: any = "") {
-  //clears the filtered list and removes all columns.
-  var toRemove = document.getElementsByName("col");
-  for (let i = toRemove.length - 1; i >= 0; --i) {
-    toRemove[i].remove();
-  }
-  items = [];
-  console.log(Data);
-
-  // fills the list with the new filter.
-  // Data.forEach(item => {
-  //   if (year == "" || item.date.getFullYear() == year) {
-  //     if (month == "" || item.date.getMonth() == month - 1) {
-  //       items.push(item);
-  //     }
-  //   }
-  // });
-
-  // items.forEach(item => {
-  //   AddGridItem(item.Date, item.result, item.intake);
-  // });
-
-  if (items.length < 1){
-    document.getElementById('resetButton').style.display = 'block';
-  }
-  else (document.getElementById('resetButton').style.display = 'none');
-
-}
-
-
 //
 //CARBS PER DAY CHART
 //
-
-function GraphFiller(json)
-{
-  var xCarbs = [];
+var xCarbs = [];
 var yCarbs = [];
 
-json.forEach(element => {
-  let i: number = xCarbs.indexOf(element.Date.toLocaleDateString());
-
-  if (i >= 0) {
-    yCarbs[i] += element.Carbs;
-  }
-  else {
-    xCarbs.push(element.Date.toLocaleDateString());
-    yCarbs.push(element.Carbs);
-  }
-});
-
 var Chart;
-new Chart("CarbsPerDay", {
+var chart = new Chart("CarbsPerDay", {
   type: "line",
   data: {
     labels: xCarbs,
@@ -147,27 +101,10 @@ new Chart("CarbsPerDay", {
   }
 });
 
-
-
-//
-//UNITS PER DAY CHART
-//
 var xUnits = [];
 var yUnits = [];
 
-json.forEach(element => {
-  let i: number = xUnits.indexOf(element.Date.toLocaleDateString());
-
-  if (i >= 0) {
-    yUnits[i] += element.Units;
-  }
-  else {
-    xUnits.push(element.Date.toLocaleDateString());
-    yUnits.push(element.Units);
-  }
-});
-
-new Chart("UnitsPerDay", {
+var chartUnit = new Chart("UnitsPerDay", {
   type: "line",
   data: {
     labels: xUnits,
@@ -188,6 +125,38 @@ new Chart("UnitsPerDay", {
     }
   }
 });
+
+
+function GraphFiller(json)
+{
+json.forEach(element => {
+  let i: number = xCarbs.indexOf(new Date(element.Date).toLocaleDateString());
+  if (i >= 0) {
+    yCarbs[i] += element.Carbs;
+  }
+  else {
+    xCarbs.push(new Date(element.Date).toLocaleDateString());
+    yCarbs.push(element.Carbs);
+    console.log("1e push bereikt!")
+  }
+});
+//
+//UNITS PER DAY CHART
+//
+
+json.forEach(element => {
+  let i: number = xUnits.indexOf(new Date(element.Date).toLocaleDateString());
+  if (i >= 0) {
+    yUnits[i] += element.Units;
+  }
+  else {
+    xUnits.push(new Date(element.Date).toLocaleDateString());
+    yUnits.push(element.Units);
+    console.log("push bereikt!")
+  }
+});
+chart.update();
+chartUnit.update();
 }
 
 

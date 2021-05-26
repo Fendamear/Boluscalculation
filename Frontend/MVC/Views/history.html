@@ -39,31 +39,7 @@
 
     <div class="card ">
         <div class="card-body">
-            <div style="width: 100%; text-align: center;">
-                <label for="yearInput">Year:</label>
-                <input id="yearInput" style="width: 70px;" type="number" min="0" />
-                <label for="monthInput">Month:</label>
-                <select id="monthInput" type="number">
-                    <option value=""></option>
-                    <option value="1">January</option>
-                    <option value="2">February</option>
-                    <option value="3">March</option>
-                    <option value="4">April</option>
-                    <option value="5">May</option>
-                    <option value="6">June</option>
-                    <option value="7">July</option>
-                    <option value="8">August</option>
-                    <option value="9">September</option>
-                    <option value="10">October</option>
-                    <option value="11">November</option>
-                    <option value="12">December</option>
-                </select>
-                <button
-                    onclick="FillGrid(document.getElementById('yearInput').value, document.getElementById('monthInput').value)">Filter</button>
-                <br>
-                <p style="font-style: italic; color: gray;">Leave empty to not filter.</p>
-                <br>
-            </div>
+            
 
             <div style="width: 100%; height: 450px ; text-align: center;">
                 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.2.1/dist/chart.min.js"></script>
