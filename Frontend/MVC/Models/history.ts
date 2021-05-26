@@ -1,3 +1,4 @@
+const buttonHistory = document.getElementById("History")
 let template: HTMLTemplateElement = <HTMLTemplateElement>document.getElementById("template");
 const urlParams = new URLSearchParams(window.location.search);
 
@@ -15,6 +16,7 @@ class Item {
         this.intake = intake;
     }
 }
+
 let DatabaseDummy: Item[] = [
     new Item(new Date('2020-04-29T09:24:50'), 4, 124),
     new Item(new Date('2020-04-29T18:04:24'), 6, 112),
@@ -25,6 +27,43 @@ let DatabaseDummy: Item[] = [
 ];
 
 let items: Item[] = [];
+
+window.addEventListener("load", function() {
+const buttonHistory = document.getElementById("History")
+
+if(buttonHistory) {
+  fetch('http://localhost:3000/Getcalc', {
+    method : 'GET',
+    headers: {'Content-type': 'application/json'}
+  }).then(res => res.json())
+    .then(json => PostCalculation(json))
+
+function PostCalculation(json)
+{
+  let test = json.Tdi
+
+  document.getElementById("totalOutput").innerText = "It worked! " + test
+}
+}
+})
+
+function GetBolusCalculation()
+{
+  fetch('http://localhost:3000/Getcalc', {
+    method : 'GET',
+    headers: {'Content-type': 'application/json'}
+  }).then(res => res.json())
+    .then(json => PostCalculation(json))
+}
+
+function PostCalculation(json)
+{
+  let test = json.Tdi
+
+  document.getElementById("totalOutput").innerText = "It worked! " + test
+}
+
+
 
 
 DatabaseDummy.forEach(item => {

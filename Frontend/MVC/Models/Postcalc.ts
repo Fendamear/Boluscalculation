@@ -18,13 +18,12 @@ function PostbolusCalc(weight:number, carbs: number) {
 function GetCalculation(json) 
 {
     document.getElementById("result").style.visibility = "visibility: hidden"
-    let tdi = json.total_intake;
-    let bd = json.basaldose;
-    let meal_intake = json.Unit;
-    let date = json.time;
-      
-    console.log(tdi, bd, meal_intake, date);  
-
+    let tdi = json.Tdi
+    let bd = json.Bd
+    let meal_intake = json.Units;
+     
+    console.log(tdi, bd, meal_intake);  
+    
     if(tdi != 0 || bd != 0 || meal_intake != 0){
         document.getElementById("result").style.visibility = "visible";
         document.getElementById("totalOutput").innerText = "Total daily Unit intake:  " + Math.round(tdi);
