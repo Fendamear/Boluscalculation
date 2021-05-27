@@ -1,29 +1,10 @@
 var template = document.getElementById("template");
-var Item = /** @class */ (function () {
-    function Item(date, result, intake) {
-        this.date = date;
-        this.result = result;
-        this.intake = intake;
-    }
-    return Item;
-}());
-var DatabaseDummy = [
-    new Item(new Date('2020-04-29T09:24:50'), 4, 124),
-    new Item(new Date('2020-04-29T18:04:24'), 6, 112),
-    new Item(new Date('2021-04-30T10:23:32'), 3, 96),
-    new Item(new Date('2021-04-30T17:24:02'), 3, 84),
-    new Item(new Date('2021-05-01T12:16:14'), 7, 140),
-    new Item(new Date('2021-05-01T17:58:54'), 5, 132)
-];
-var Data = [];
-var items = [];
 fetch('http://localhost:3000/Getcalc', {
     method: 'GET',
     headers: { 'Content-type': 'application/json' }
 }).then(function (res) { return res.json(); })
     .then(function (json) { return GridFill(json); });
 function GridFill(json) {
-    //console.log(json);
     var i = 0;
     json.forEach(function () {
         var date = json[i].Date;
@@ -36,7 +17,6 @@ function GridFill(json) {
         console.log(date, weight, units, carbs, tdi, bd);
         i++;
     });
-    console.log("Testfunctie Graphfiller");
     GraphFiller(json);
 }
 function AddGridItem(date, Weight, Units, Carbs, Tdi, Bd) {
@@ -44,8 +24,8 @@ function AddGridItem(date, Weight, Units, Carbs, Tdi, Bd) {
     newRow.querySelector(".colDate").innerText = new Date(date).toLocaleString();
     newRow.querySelector(".colWeight").innerText = Weight + ' kg';
     newRow.querySelector(".colCarbs").innerText = Carbs + ' carbs';
-    newRow.querySelector(".colTdi").innerText = Tdi + ' Total Daily Intake';
-    newRow.querySelector(".colBd").innerText = Bd + ' Basal Dose';
+    newRow.querySelector(".colTdi").innerText = 'Total Daily Intake: ' + Tdi;
+    newRow.querySelector(".colBd").innerText = 'Basal Dose: ' + Bd;
     newRow.querySelector(".colUnits").innerText = Units + ' units';
     document.getElementById("gridContainer").appendChild(newRow);
 }
@@ -111,7 +91,6 @@ function GraphFiller(json) {
         else {
             xCarbs.push(new Date(element.Date).toLocaleDateString());
             yCarbs.push(element.Carbs);
-            console.log("1e push bereikt!");
         }
     });
     //
@@ -125,7 +104,6 @@ function GraphFiller(json) {
         else {
             xUnits.push(new Date(element.Date).toLocaleDateString());
             yUnits.push(element.Units);
-            console.log("push bereikt!");
         }
     });
     chart.update();

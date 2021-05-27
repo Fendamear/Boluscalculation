@@ -1,30 +1,5 @@
 let template: HTMLTemplateElement = <HTMLTemplateElement>document.getElementById("template");
 
-class Item {
-  date: Date;
-  result: number;
-  intake: number;
-
-  constructor(date: Date, result: number, intake: number) {
-    this.date = date;
-    this.result = result;
-    this.intake = intake;
-  }
-}
-
-let DatabaseDummy: Item[] = [
-  new Item(new Date('2020-04-29T09:24:50'), 4, 124),
-  new Item(new Date('2020-04-29T18:04:24'), 6, 112),
-  new Item(new Date('2021-04-30T10:23:32'), 3, 96),
-  new Item(new Date('2021-04-30T17:24:02'), 3, 84),
-  new Item(new Date('2021-05-01T12:16:14'), 7, 140),
-  new Item(new Date('2021-05-01T17:58:54'), 5, 132)
-];
-
-var Data: string[] = [];
-
-let items: string[] = [];
-
     fetch('http://localhost:3000/Getcalc', {
       method : 'GET',
       headers: {'Content-type': 'application/json'}
@@ -32,12 +7,8 @@ let items: string[] = [];
       .then(json => GridFill(json)
       );
 
-
 function GridFill(json)
-{
-    //console.log(json);
-
-    
+{    
     let i = 0;
     json.forEach (function () {
       let date: string = json[i].Date;
@@ -51,7 +22,6 @@ function GridFill(json)
       i++;
     }   
    ) 
-   console.log("Testfunctie Graphfiller")
    GraphFiller(json);
 }
 
@@ -61,8 +31,8 @@ function AddGridItem(date: string, Weight:number, Units: number, Carbs: number, 
   (newRow.querySelector(".colDate") as HTMLDivElement).innerText = new Date(date).toLocaleString();
   (newRow.querySelector(".colWeight") as HTMLDivElement).innerText = <string><unknown>Weight + ' kg';
   (newRow.querySelector(".colCarbs") as HTMLDivElement).innerText = <string><unknown>Carbs + ' carbs';
-  (newRow.querySelector(".colTdi") as HTMLDivElement).innerText = <string><unknown>Tdi + ' Total Daily Intake';
-  (newRow.querySelector(".colBd") as HTMLDivElement).innerText = <string><unknown>Bd + ' Basal Dose';
+  (newRow.querySelector(".colTdi") as HTMLDivElement).innerText = <string><unknown>'Total Daily Intake: ' + Tdi;
+  (newRow.querySelector(".colBd") as HTMLDivElement).innerText = <string><unknown>'Basal Dose: ' + Bd;
   (newRow.querySelector(".colUnits") as HTMLDivElement).innerText = <string><unknown>Units + ' units';
   
 
@@ -137,7 +107,6 @@ json.forEach(element => {
   else {
     xCarbs.push(new Date(element.Date).toLocaleDateString());
     yCarbs.push(element.Carbs);
-    console.log("1e push bereikt!")
   }
 });
 //
@@ -152,8 +121,7 @@ json.forEach(element => {
   else {
     xUnits.push(new Date(element.Date).toLocaleDateString());
     yUnits.push(element.Units);
-    console.log("push bereikt!")
-  }
+    }
 });
 chart.update();
 chartUnit.update();
