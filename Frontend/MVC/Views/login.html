@@ -1,4 +1,5 @@
 <head>
+    <script type= "module" src="../Models/Loginform.js"></script>
     <script>var exports = {};</script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
@@ -6,6 +7,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
+        
 
     <title>Login</title>
 </head>
@@ -23,7 +25,6 @@
         <br>
         <div class="card ">
             <div class="card-body">
-                <form style="margin: 20px;">
                     <h5>Login to your account</h5>
                     <br>
                     <div class="form-group">
@@ -34,8 +35,7 @@
                         <label for="inputPassword">Password</label>
                         <input type="password" class="form-control" id="inputPassword" placeholder="Password">
                     </div>
-                    <button type="submit" class="btn btn-primary">Login to account</button>
-                </form>
+                    <button id="Login" class="btn btn-primary">Login to account</button>
             </div>
         </div>
     </div>

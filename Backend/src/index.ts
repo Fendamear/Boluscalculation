@@ -2,7 +2,7 @@ import "reflect-metadata";
 import {createConnection} from "typeorm";
 import { Calc } from "./entity/Calc";
 import {User} from "./entity/User";
-import {AddCalcToDatabase, SelectAllCalc} from "./DBhandler";  
+import {AddCalcToDatabase, AdduserToDB, SelectAllCalc, SelectUser} from "./DBhandler";  
 import * as boluscalc from "./bolus";
 import express from "express";
 const app = express();
@@ -32,9 +32,23 @@ createConnection().then(async connection => {
         calc.Bd = bd;
         calc.Units = meal_intake;
     
-        AddCalcToDatabase(calc);
+        //AddCalcToDatabase(calc);
 
         res.send(calc);
+
+    })
+
+    app.post("/Register", (req, res) => {       
+        const user = new User();
+        user.firstName = req.body.firstname;
+        user.lastName = req.body.lastname;
+        user.email = req.body.email;
+        user.password = req.body.Password;
+        user.role = req.body.role;
+        user.GP = req.body.GP;
+
+        AdduserToDB(user)
+        console.log(user);
 
     })
 
@@ -45,49 +59,18 @@ createConnection().then(async connection => {
             res.send(result);
         })
     })
+
+    app.post("/Login", (req, res) => {
+        let email = req.body.email;
+        const user = SelectUser(email);
+        
+        user.then(function(result) {
+            console.log(result);
+            res.send(result)
+        })
+    });
     
     const port = process.env.PORT || 3000;
     app.listen(port, () => console.log(`Listening on port ${port}...`))
-
-
-
-    // let weight = 80;
-    // let carbs = 50;
-
-        
-    // let tdi = boluscalc.Total_daily_intake_calculation(weight);
-    // let bd = boluscalc.Basal_dose_calculation(tdi);
-    // let meal_intake = boluscalc.Meal_intake_calculation(tdi, carbs);
-
-    // console.log("Inserting a new user into the database...");
-    // const calc = new Calc()
-    // calc.Weight = weight;
-    // calc.Carbs = carbs;
-    // calc.Tdi = tdi;
-    // calc.Bd = bd;
-    // calc.Units = meal_intake;
-
-    // AddCalcToDatabase(calc);
-    
-    // const calc = new Calc()
-    // calc.Weight = 90;
-    // calc.Carbs = 50;
-    // calc.Tdi = 44;
-    // calc.Bd = 8;
-    // calc.Units = 5;
-    //await connection.manager.save(calc);
-    //console.log("Saved a new calc with id: " + calc.Id);
-
-    //AddCalcToDatabase(calc);
-    
-
-
-
-
-    // console.log("Loading users from the database...");
-    // const users = await connection.manager.find(User);
-    // console.log("Loaded users: ", users);
-
-    // console.log("Here you can setup and run express/koa/any other framework.");
 
 }).catch(error => console.log(error));

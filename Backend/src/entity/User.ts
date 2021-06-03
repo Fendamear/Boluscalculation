@@ -13,6 +13,15 @@ export class User {
     lastName: string;
 
     @Column()
-    age: number;
+    email: string;
+
+    @Column()
+    password: string;
+
+    @Column()
+    role: string;
+
+    @Column()
+    GP: string;
 
 }
