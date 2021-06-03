@@ -29,12 +29,12 @@
         <h5>Register an account</h5>
         <br>
         <div class="form-group">
-          <label for="inputEmail">First name</label>
-          <input type="text" class="form-control" id="inputEmail" placeholder="First name">
+          <label for="inputFirstName">First name</label>
+          <input type="text" class="form-control" id="inputFirstName" placeholder="First name">
         </div>
         <div class="form-group">
-          <label for="inputEmail">Last name</label>
-          <input type="text" class="form-control" id="inputEmail" placeholder="Last name">
+          <label for="inputLastName">Last name</label>
+          <input type="text" class="form-control" id="inputLastName" placeholder="Last name">
         </div>
         <div class="form-group">
           <label for="inputEmail">Email address</label>
@@ -44,11 +44,18 @@
           <label for="inputPassword">Password</label>
           <input type="password" class="form-control" id="inputPassword" placeholder="Password">
         </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="" id="inputGP">
-          <label class="form-check-label" for="inputGP">
-            Are you a general practitioner?
-          </label>
+        <div class="form-group">          
+          <label for="selectRole">Role</label>
+          <select onchange="DisableGpSelect()" class="form-control" type="select" value="patient" id="selectRole">
+            <option value="patient">Patient</option>
+            <option value="GP">General practitioner</option>
+          </select>
+        </div>
+        <div class="form-group">          
+          <label for="selectGP">Choose your general practitioner</label>
+          <select class="form-control" type="select" id="selectGP">
+            <!--fill with all GP's-->
+          </select>
         </div>
         <br>
         <button type="submit" class="btn btn-primary">Register account</button>
@@ -57,3 +64,18 @@
   </div>
 </div>
 </body>
+
+
+
+<script>
+  function DisableGpSelect()
+  {
+    if (document.getElementById("selectRole").value == "GP")
+    {
+      document.getElementById("selectGP").disabled = true;
+    }
+    else{
+      document.getElementById("selectGP").disabled = false;
+    }
+  }
+</script>
