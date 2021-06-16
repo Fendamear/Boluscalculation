@@ -8,7 +8,12 @@ let password = (<HTMLInputElement>document.getElementById("inputPassword"));
 function FetchLogin(email:string)
 {
     const json = JSON.stringify({"email":email})
-
+    let cookie = getLoginCookie("id")
+    if(cookie != null)
+    {
+        location.href="history.html";
+        return;
+    }
     fetch('http://localhost:3000/Login', {
         method: 'POST', 
         headers: { 'Content-type': 'application/json'},
@@ -23,9 +28,11 @@ function Login(json)
     {
         alert("Succesvol ingelogd!")
         setCookie("id", json.id);
+        location.href="history.html"
     }
     else
     {
+        alert("Het email adres of het wachtwoord is onjuist!")
         console.log("Het wachtwoord komt niet overeen")
     }
 }
@@ -47,4 +54,17 @@ function setCookie(name: string, val: string) {
 
     // Set it
     document.cookie = name+"="+value+"; expires="+date.toUTCString()+"; path=/";
+}
+
+function getLoginCookie(name: string): string|null {
+    const nameLenPlus = (name.length + 1);
+    return document.cookie
+        .split(';')
+        .map(c => c.trim())
+        .filter(cookie => {
+            return cookie.substring(0, nameLenPlus) === `${name}=`;
+        })
+        .map(cookie => {
+            return decodeURIComponent(cookie.substring(nameLenPlus));
+        })[0] || null;
 }

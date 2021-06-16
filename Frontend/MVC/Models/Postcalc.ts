@@ -4,15 +4,13 @@ let carbs = (<HTMLInputElement>document.getElementById("carbsInput"))
 
 function PostbolusCalc(weight:number, carbs: number) {
     const date = new Date();
-    const json = JSON.stringify({"weight":weight, "carbs":carbs, "calcTime":date})
-
-    setCookie("id", "1");
-
     const getcookie = getCookie("id")
+    const json = JSON.stringify({"UserID": getcookie, "weight":weight, "carbs":carbs, "calcTime":date})
+    
     console.log(getcookie);
     //const cookie = getCookie('id')
     //console.log(cookie);
-
+    
     fetch('http://localhost:3000/Postcalc', {
         method: 'POST', 
         headers: { 'Content-type': 'application/json'},

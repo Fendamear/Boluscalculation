@@ -1,8 +1,16 @@
 let template: HTMLTemplateElement = <HTMLTemplateElement>document.getElementById("template");
 
+    const getcookie = getHistoryCookie("id")
+    const json = JSON.stringify({"UserID": getcookie})
+
+    console.log(json)
+    console.log(getcookie)
+
+
     fetch('http://localhost:3000/Getcalc', {
-      method : 'GET',
-      headers: {'Content-type': 'application/json'}
+      method : 'POST',
+      headers: {'Content-type': 'application/json'},
+      body: json,
     }).then(res => res.json())
       .then(json => GridFill(json)
       );
@@ -10,7 +18,9 @@ let template: HTMLTemplateElement = <HTMLTemplateElement>document.getElementById
 function GridFill(json)
 {    
     let i = 0;
+    
     json.forEach (function () {
+      console.log(json[i].UserID)
       let date: string = json[i].Date;
       let weight = json[i].Weight;
       let carbs = json[i].Carbs;
@@ -127,4 +137,15 @@ chart.update();
 chartUnit.update();
 }
 
-
+function getHistoryCookie(name: string): string|null {
+  const nameLenPlus = (name.length + 1);
+  return document.cookie
+      .split(';')
+      .map(c => c.trim())
+      .filter(cookie => {
+          return cookie.substring(0, nameLenPlus) === `${name}=`;
+      })
+      .map(cookie => {
+          return decodeURIComponent(cookie.substring(nameLenPlus));
+      })[0] || null;
+}

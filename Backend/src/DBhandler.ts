@@ -9,12 +9,34 @@ export const AddCalcToDatabase = async (calc:Calc) =>{
     console.log("calc added with id :" + calc.Id);
 }
 
-export const SelectAllCalc = async () => {
+export const SelectAllCalc = async (userID:string): Promise<Calc> => {
     const calculations = getRepository(Calc);
-    return await calculations.find();    
+    const CalcData = await calculations.find({where: {UserID:userID}}).catch((error) => {
+        console.log(error);
+        throw error;
+    });
+    return CalcData[0];
 }
 
-export const SelectUser = async (email:string): Promise<User> => {
+export const SelectUserByID = async (Id: number): Promise<User> => {
+    const UserRepo = getRepository(User);
+    const UserData = await UserRepo.find({where: {id: Id}}).catch((error) => {
+    console.log(error);   
+    });
+    return UserData[0];
+}
+
+export const SelectAllCalcFromUser = async (userID:number) => {
+    const calculations = getRepository(Calc);
+    const userObject = await SelectUserByID(userID);
+
+    return await calculations.find({ where: {UserID: userObject.id}}).catch((error) => {
+        console.log(error);
+        throw error
+    })
+}
+    
+export const SelectUserByEmail = async (email:string): Promise<User> => {
     const test = getRepository(User);
     const UserData = await test.find({where: {email:email}}).catch((error) => {
        console.log(error);     

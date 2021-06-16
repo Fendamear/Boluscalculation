@@ -3,9 +3,8 @@ var weight = document.getElementById("weightInput");
 var carbs = document.getElementById("carbsInput");
 function PostbolusCalc(weight, carbs) {
     var date = new Date();
-    var json = JSON.stringify({ "weight": weight, "carbs": carbs, "calcTime": date });
-    setCookie("id", "1");
     var getcookie = getCookie("id");
+    var json = JSON.stringify({ "UserID": getcookie, "weight": weight, "carbs": carbs, "calcTime": date });
     console.log(getcookie);
     //const cookie = getCookie('id')
     //console.log(cookie);
@@ -37,14 +36,6 @@ window.onload = function () {
         PostbolusCalc(parseFloat(weight.value), parseFloat(carbs.value));
     });
 };
-function setCookie(name, val) {
-    var date = new Date();
-    var value = val;
-    // Set it expire in 7 days
-    date.setTime(date.getTime() + (7 * 24 * 60 * 60 * 1000));
-    // Set it
-    document.cookie = name + "=" + value + "; expires=" + date.toUTCString() + "; path=/";
-}
 function getCookie(name) {
     var nameLenPlus = (name.length + 1);
     return document.cookie

@@ -7,6 +7,9 @@ export class Calc {
     Id: number;
 
     @Column()
+    UserID: number;
+
+    @Column()
     Date: Date;
 
     @Column()

@@ -2,11 +2,13 @@ import "reflect-metadata";
 import {createConnection} from "typeorm";
 import { Calc } from "./entity/Calc";
 import {User} from "./entity/User";
-import {AddCalcToDatabase, AdduserToDB, SelectAllCalc, SelectUser} from "./DBhandler";  
+import {AddCalcToDatabase, AdduserToDB, SelectAllCalc, SelectAllCalcFromUser, SelectUserByEmail} from "./DBhandler";  
 import * as boluscalc from "./bolus";
 import express from "express";
+import cors from "cors";
 const app = express();
 app.use(express.json());
+app.use(cors());
 
 createConnection().then(async connection => {
 
@@ -15,6 +17,7 @@ createConnection().then(async connection => {
     })
 
     app.post("/PostCalc", (req, res) => {
+        let userid = req.body.UserID;
         let Weight = req.body.weight;
         let Carbs = req.body.carbs;
         let date = req.body.calcTime;   
@@ -25,6 +28,7 @@ createConnection().then(async connection => {
     
         console.log("Inserting a new user into the database...");
         const calc = new Calc()
+        calc.UserID = userid;
         calc.Date = date;
         calc.Weight = Weight;
         calc.Carbs = Carbs;
@@ -32,7 +36,7 @@ createConnection().then(async connection => {
         calc.Bd = bd;
         calc.Units = meal_intake;
     
-        //AddCalcToDatabase(calc);
+        AddCalcToDatabase(calc);
 
         res.send(calc);
 
@@ -40,6 +44,7 @@ createConnection().then(async connection => {
 
     app.post("/Register", (req, res) => {       
         const user = new User();
+        
         user.firstName = req.body.firstname;
         user.lastName = req.body.lastname;
         user.email = req.body.email;
@@ -52,8 +57,10 @@ createConnection().then(async connection => {
 
     })
 
-    app.get("/Getcalc", (req, res) => {
-        let calc = SelectAllCalc();
+    app.post("/Getcalc", (req, res) => {
+        let userid = req.body.UserID
+        const calc = SelectAllCalcFromUser(userid);
+
         calc.then(function(result) {
             console.log(result);
             res.send(result);
@@ -62,7 +69,7 @@ createConnection().then(async connection => {
 
     app.post("/Login", (req, res) => {
         let email = req.body.email;
-        const user = SelectUser(email);
+        const user = SelectUserByEmail(email);
         
         user.then(function(result) {
             console.log(result);
