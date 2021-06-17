@@ -3,6 +3,21 @@ let template: HTMLTemplateElement = <HTMLTemplateElement>document.getElementById
     const getcookie = getHistoryCookie("id")
     const json = JSON.stringify({"UserID": getcookie})
 
+    if(getcookie != null)
+    {
+      const loginjson = JSON.stringify({"ID": getcookie})
+        fetch('http://localhost:3000/GetLoginByID', {
+            method: 'POST', 
+            headers: { 'Content-type': 'application/json'},
+            body: loginjson,
+        }).then(res => res.json())
+          .then(json => document.getElementById("name").innerText = "Welcome, " + json.firstName);
+    }
+    else {
+      alert("je moet ingelogd zijn om deze pagina te kunnen bekijken!")
+      location.href = "index.html"
+    }
+
     console.log(json)
     console.log(getcookie)
 
@@ -14,6 +29,9 @@ let template: HTMLTemplateElement = <HTMLTemplateElement>document.getElementById
     }).then(res => res.json())
       .then(json => GridFill(json)
       );
+
+
+
 
 function GridFill(json)
 {    

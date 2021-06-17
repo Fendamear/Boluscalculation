@@ -1,6 +1,19 @@
 var template = document.getElementById("template");
 var getcookie = getHistoryCookie("id");
 var json = JSON.stringify({ "UserID": getcookie });
+if (getcookie != null) {
+    var loginjson = JSON.stringify({ "ID": getcookie });
+    fetch('http://localhost:3000/GetLoginByID', {
+        method: 'POST',
+        headers: { 'Content-type': 'application/json' },
+        body: loginjson
+    }).then(function (res) { return res.json(); })
+        .then(function (json) { return document.getElementById("name").innerText = "Welcome, " + json.firstName; });
+}
+else {
+    alert("je moet ingelogd zijn om deze pagina te kunnen bekijken!");
+    location.href = "index.html";
+}
 console.log(json);
 console.log(getcookie);
 fetch('http://localhost:3000/Getcalc', {

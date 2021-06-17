@@ -35,6 +35,14 @@ export const SelectAllCalcFromUser = async (userID:number) => {
         throw error
     })
 }
+
+export const SelectUserByGP = async (GP:string) => {
+    const user = getRepository(User);
+    return await user.find({ where: {GP: GP}}).catch((error) => {
+        console.log(error);
+        throw error
+    })
+}
     
 export const SelectUserByEmail = async (email:string): Promise<User> => {
     const test = getRepository(User);

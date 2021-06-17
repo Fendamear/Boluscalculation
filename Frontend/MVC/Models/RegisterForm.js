@@ -13,6 +13,7 @@ function Register(firstname, lastname, role, GP, email, password) {
         headers: { 'Content-type': 'application/json' },
         body: json
     }).then(function (res) { return res.json(); });
+    location.href = "login.html";
 }
 window.onload = function () {
     buttonRegister.addEventListener("click", function () {

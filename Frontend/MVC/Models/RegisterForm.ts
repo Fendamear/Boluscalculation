@@ -15,7 +15,7 @@ function Register(firstname:string, lastname:string,role:string,GP:string,email:
         headers: { 'Content-type': 'application/json'},
         body: json,
     }).then(res => res.json());
-    location.href="Login.html"
+    location.href="login.html"
 }
 
 window.onload = function(){

@@ -2,22 +2,48 @@ const button = document.getElementById("Calculate");
 let weight = (<HTMLInputElement>document.getElementById("weightInput"));
 let carbs = (<HTMLInputElement>document.getElementById("carbsInput"))
 
+if(getCookie("id") != null)
+{
+    const getcookie = getCookie("id");
+    console.log(getcookie);
+    const json = JSON.stringify({"ID": getcookie})
+    fetch('http://localhost:3000/GetLoginByID', {
+        method: 'POST', 
+        headers: { 'Content-type': 'application/json'},
+        body: json,
+    }).then(res => res.json())
+      .then(json => document.getElementById("name").innerText = "Welcome, " + json.firstName);
+
+}
+else {
+    alert("je moet ingelogd zijn om deze pagina te kunnen bekijken!")
+    location.href = "index.html"
+}
+
 function PostbolusCalc(weight:number, carbs: number) {
     const date = new Date();
     const getcookie = getCookie("id")
     const json = JSON.stringify({"UserID": getcookie, "weight":weight, "carbs":carbs, "calcTime":date})
     
-    console.log(getcookie);
-    //const cookie = getCookie('id')
-    //console.log(cookie);
-    
-    fetch('http://localhost:3000/Postcalc', {
-        method: 'POST', 
-        headers: { 'Content-type': 'application/json'},
-        body: json,
-    }).then(res => res.json())
-      .then(json => GetCalculation(json));
-     
+    if(getcookie != null)
+    {
+        console.log(getcookie);
+        //const cookie = getCookie('id')
+        //console.log(cookie);
+        
+        fetch('http://localhost:3000/Postcalc', {
+            method: 'POST', 
+            headers: { 'Content-type': 'application/json'},
+            body: json,
+        }).then(res => res.json())
+          .then(json => GetCalculation(json));
+        
+    }
+    else{
+        alert("Je moet ingelogd zijn om een bolus calculatie te plaatsen!");
+        location.href = "login.html";
+    }
+ 
 }
 
 function GetCalculation(json) 

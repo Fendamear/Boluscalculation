@@ -1,19 +1,36 @@
 var button = document.getElementById("Calculate");
 var weight = document.getElementById("weightInput");
 var carbs = document.getElementById("carbsInput");
-function PostbolusCalc(weight, carbs) {
-    var date = new Date();
+if (getCookie("id") != null) {
     var getcookie = getCookie("id");
-    var json = JSON.stringify({ "UserID": getcookie, "weight": weight, "carbs": carbs, "calcTime": date });
     console.log(getcookie);
-    //const cookie = getCookie('id')
-    //console.log(cookie);
-    fetch('http://localhost:3000/Postcalc', {
+    var json = JSON.stringify({ "ID": getcookie });
+    fetch('http://localhost:3000/GetLoginByID', {
         method: 'POST',
         headers: { 'Content-type': 'application/json' },
         body: json
     }).then(function (res) { return res.json(); })
-        .then(function (json) { return GetCalculation(json); });
+        .then(function (json) { return document.getElementById("name").innerText = "Welcome, " + json.firstName; });
+}
+function PostbolusCalc(weight, carbs) {
+    var date = new Date();
+    var getcookie = getCookie("id");
+    var json = JSON.stringify({ "UserID": getcookie, "weight": weight, "carbs": carbs, "calcTime": date });
+    if (getcookie != null) {
+        console.log(getcookie);
+        //const cookie = getCookie('id')
+        //console.log(cookie);
+        fetch('http://localhost:3000/Postcalc', {
+            method: 'POST',
+            headers: { 'Content-type': 'application/json' },
+            body: json
+        }).then(function (res) { return res.json(); })
+            .then(function (json) { return GetCalculation(json); });
+    }
+    else {
+        alert("Je moet ingelogd zijn om een bolus calculatie te plaatsen!");
+        location.href = "login.html";
+    }
 }
 function GetCalculation(json) {
     document.getElementById("result").style.visibility = "visibility: hidden";

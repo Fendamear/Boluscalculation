@@ -2,7 +2,7 @@ import "reflect-metadata";
 import {createConnection} from "typeorm";
 import { Calc } from "./entity/Calc";
 import {User} from "./entity/User";
-import {AddCalcToDatabase, AdduserToDB, SelectAllCalc, SelectAllCalcFromUser, SelectUserByEmail} from "./DBhandler";  
+import {AddCalcToDatabase, AdduserToDB, SelectAllCalc, SelectAllCalcFromUser, SelectUserByEmail, SelectUserByGP, SelectUserByID} from "./DBhandler";  
 import * as boluscalc from "./bolus";
 import express from "express";
 import cors from "cors";
@@ -77,6 +77,25 @@ createConnection().then(async connection => {
         })
     });
     
+    app.post("/GetLoginByID", (req, res) => {
+        let Id = req.body.ID
+        const user = SelectUserByID(Id)
+        user.then(function(result) {
+            console.log(result);
+            res.send(result)
+        })
+    });
+    
+    app.post("/GetUsersByGP", (req,res) => {
+        const user = SelectUserByGP(req.body.GP);
+        user.then(function(result) {
+            console.log(result)
+            res.send(result)
+        })
+        
+    })
+
+
     const port = process.env.PORT || 3000;
     app.listen(port, () => console.log(`Listening on port ${port}...`))
 
